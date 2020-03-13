@@ -2,14 +2,14 @@ require_relative("../db/sqlrunner.rb")
 
 class City
 
-  attr_reader( :name, :visited, :id )
+  attr_reader( :id )
   # attr_writer
 
-  # attr_accessor( )
+  attr_accessor( :name, :visited )
 
   def initialize( options )
 
-    @id = options["id"].to_i if options['id']
+    @id = options["id"].to_i if options["id"]
     @name = options["name"]
     @visited = options["visited"]
   end
@@ -37,10 +37,12 @@ class City
   end
 
   def update
-  sql = "UPDATE cities SET name = $1, visited = $2 WHERE id = $3"
-  values = [@name, @visited, @id]
-  SqlRunner.run( sql, values )
-end
+
+    sql = "UPDATE cities SET name = $1, visited = $2 WHERE id = $3"
+    values = [@name, @visited, @id]
+    SqlRunner.run( sql, values )
+
+  end
 
   def self.find_all()
 
