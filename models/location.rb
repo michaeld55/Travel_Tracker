@@ -51,6 +51,22 @@ class Location
 
   end
 
+  def self.find_id_by_country_id( country_id )
+
+    sql = "SELECT locations.id, locations.continent_id FROM locations
+           LEFT JOIN countries
+           ON locations.country_id = countries.id
+           RIGHT JOIN continents
+           ON locations.continent_id = continents.id
+           WHERE countries.id = $1"
+
+    values = [ country_id ]
+    location = SqlRunner.run( sql, values ).first
+    continent = ( Continent.find_by_id( location["continent_id"] ))
+    location = ( Location.find_by_id( location["id"] ))
+    [location, continent]
+  end
+
   def self.find_all()
 
   sql = "SELECT * FROM locations"

@@ -10,7 +10,7 @@ class City
   def initialize( options )
 
     @id = options["id"].to_i if options["id"]
-    @name = options["name"]
+    @name = options["name"].downcase.capitalize
     @visited = options["visited"]
   end
 
@@ -21,7 +21,7 @@ class City
   end
 
   def save()
-
+    
     sql = "INSERT INTO cities
     (
       name, visited

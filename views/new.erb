@@ -1,0 +1,21 @@
+<form class = "" action = "/trips" method = "post">
+  <label for = "continent_select"> Choose a Continent:</label>
+  <select id = "continent_select" name = "continent_id">
+    <% @continents.each do |continent|  %>
+      <option value = <%= continent.id  %>> <%= continent.name  %></option>
+    <% end %>
+  </select>
+  <br>
+  <label for = "country_select"> Pick a Country:</label>
+  <select id = "country_select" name = "country_id">
+    <% @countries.each do |country|  %>
+      <option value = <%= country.id  %>> <%= country.name %> </option>
+    <% end %>
+  </select>
+  <br>
+  <label for="city_select"> Enter the City you want to visit:</label>
+  <input type="text" name= "city_name" id="city_select">
+  <br>
+  <input type="submit" value= "Save Trip">
+
+</form>

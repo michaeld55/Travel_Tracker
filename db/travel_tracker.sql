@@ -45,7 +45,7 @@ CREATE TABLE locations(
 CREATE TABLE trips(
 
   id SERIAL PRIMARY KEY,
-  location_id INT REFERENCES locations(id) ON DELETE CASCADE,
+  location_id INT REFERENCES locations(id),
   destination_id INT REFERENCES destinations(id) ON DELETE CASCADE
 
 );

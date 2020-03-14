@@ -9,7 +9,6 @@ require_relative( "models/continent.rb" )
 require_relative( "models/city.rb" )
 also_reload("./models/*")
 
-Trip.delete_all()
 Destination.delete_all()
 City.delete_all()
 
@@ -18,7 +17,6 @@ get( "/" ) do
 end
 
 get( "/trips" ) do
-
   @trips = Trip.find_all()
   erb(:index)
 
@@ -26,6 +24,8 @@ end
 
 get( "/trips/new" ) do
 
+  @countries = Country.find_all
+  @continents = Continent.find_all
   erb(:new)
 
 end
@@ -47,11 +47,13 @@ get( "" ) do
 end
 
 post( "/trips" ) do
-  
-  @city = City.new( params["city_name"] )
+
+  @city = City.new( {"name" => params["city_name"], "visited" => false} )
   @city.save
-  @destination = Destination.new( @city.id )
+  @destination = Destination.new( {"city_id" => @city.id} )
   @destination.save
+  @location_L_C = Location.find_id_by_country_id( params["country_id"])
+  @location = @location_L_C[0]
   @trip = Trip.new({"location_id" => @location.id, "destination_id" => @destination.id})
   @trip.save
   erb(:create)
