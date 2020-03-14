@@ -1,6 +1,6 @@
 require_relative( "../db/sqlrunner.rb" )
 
-class Country
+class Continent
 
   attr_reader( :id )
   attr_accessor( :name )
@@ -15,7 +15,7 @@ class Country
 
   def save()
 
-    sql = "INSERT INTO countries
+    sql = "INSERT INTO continents
     (
       name
     )
@@ -31,7 +31,7 @@ class Country
 
   def update
 
-    sql = "UPDATE countries SET name = $1 WHERE id = $2"
+    sql = "UPDATE continents SET name = $1 WHERE id = $2"
     values = [@name, @id]
     SqlRunner.run( sql, values )
 
@@ -39,24 +39,24 @@ class Country
 
   def self.find_all()
 
-  sql = "SELECT * FROM countries"
-  countries = SqlRunner.run( sql )
-  return countries = countries.map { |country| Country.new( country ) }
+  sql = "SELECT * FROM continents"
+  continents = SqlRunner.run( sql )
+  return continents = continents.map { |continent| Continent.new( continent ) }
 
   end
 
   def self.find_by_id( id )
 
-  sql = "SELECT * FROM countries WHERE id = $1"
+  sql = "SELECT * FROM continents WHERE id = $1"
   values = [id]
-  country = SqlRunner.run( sql, values ).first
-  return country = Country.new( country )
+  continent = SqlRunner.run( sql, values ).first
+  return continent = Continent.new( continent )
 
 end
 
   def self.delete_all()
 
-  sql = "DELETE FROM countries"
+  sql = "DELETE FROM continents"
   SqlRunner.run( sql )
 
   end

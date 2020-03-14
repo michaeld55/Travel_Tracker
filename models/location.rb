@@ -1,14 +1,17 @@
+require_relative( "../db/sqlrunner.rb" )
 require_relative( "country.rb" )
+require_relative( "continent.rb" )
 
 class Location
 
   attr_reader( :id )
-  attr_accessor( :country_id )
+  attr_accessor( :country_id, :continent_id )
 
   def initialize( options )
 
     @id = options["id"].to_i if options["id"]
     @country_id = options["country_id"].to_i
+    @continent_id = options["continent_id"].to_i
 
   end
 
@@ -16,22 +19,22 @@ class Location
 
     sql = "INSERT INTO locations
     (
-      country_id
+      country_id, continent_id
     )
     VALUES
     (
-      $1
+      $1, $2
     )
     RETURNING id"
-    values = [@country_id]
+    values = [@country_id, @continent_id]
     @id = SqlRunner.run(sql, values)[0]['id'].to_i
 
   end
 
   def update
 
-    sql = "UPDATE locations SET country_id = $1 WHERE id = $2"
-    values = [@country_id, @id]
+    sql = "UPDATE locations SET country_id = $1, continent_id = $2 WHERE id = $3"
+    values = [@country_id, @continent_id, @id]
     SqlRunner.run( sql, values )
 
   end

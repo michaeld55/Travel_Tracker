@@ -1,3 +1,4 @@
+require_relative( "../db/sqlrunner.rb" )
 require_relative( "city.rb" )
 
 class Destination

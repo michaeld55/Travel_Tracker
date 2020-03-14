@@ -1,3 +1,5 @@
+require_relative( "../db/sqlrunner.rb" )
+
 class Trip
 
     attr_reader( :id )
