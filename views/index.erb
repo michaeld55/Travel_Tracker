@@ -1,7 +1,6 @@
 <% counter = 0  %>
 <% @trips.each do |trip|  %>
    <p>
-     <form  action= "/trips/ <%= "#{trip.id}"%>/edit" method="get">
       <% counter += 1  %>
       <%= "Trip #{counter}:"%>
       <% @trip_C_D = trip.find_location_destinations %>
@@ -18,7 +17,11 @@
           <%= "#{destination}." %>
         <% end  %>
       <% end %>
+      <form action= "/trips/<%= "#{trip.id}"%>/edit" method="get">
       <input type="submit" value="Edit Trip">
+      </form>
+      <form method="get" action="/trips/<%="#{trip.id}"%>/delete">
+      <input type="submit" value="Delete Trip">
      </form>
   </p>
   <br>

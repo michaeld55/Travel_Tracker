@@ -73,10 +73,19 @@ class Trip
 
   end
 
-    def self.delete_all()
+  def delete()
+
+    sql = "DELETE FROM trips
+    WHERE id = $1"
+    values = [@id]
+    SqlRunner.run( sql, values )
+
+  end
+
+  def self.delete_all()
 
     sql = "DELETE FROM trips"
     SqlRunner.run( sql )
 
-    end
+  end
 end

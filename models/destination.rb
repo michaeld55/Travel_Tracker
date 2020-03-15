@@ -38,6 +38,15 @@ class Destination
 
     end
 
+    def delete()
+
+      sql = "DELETE FROM destinations
+      WHERE id = $1"
+      values = [@id]
+      SqlRunner.run( sql, values )
+
+    end
+
     def self.find_by_trip_id( trip_id )
       sql = "SELECT * FROM destinations
              WHERE destinations.trip_id = $1"
@@ -63,13 +72,13 @@ class Destination
 
     def self.find_all()
 
-    sql = "SELECT * FROM destinations"
-    destinations = SqlRunner.run( sql )
-    return destinations = destinations.map { |destination| Destination.new( destination )}
+      sql = "SELECT * FROM destinations"
+      destinations = SqlRunner.run( sql )
+      return destinations = destinations.map { |destination| Destination.new( destination )}
 
     end
 
-    def self.find_by_id( id )
+  def self.find_by_id( id )
 
     sql = "SELECT * FROM destinations WHERE id = $1"
     values = [id]
@@ -78,11 +87,11 @@ class Destination
 
   end
 
-    def self.delete_all()
+  def self.delete_all()
 
     sql = "DELETE FROM destinations"
     SqlRunner.run( sql )
 
-    end
+  end
 
 end

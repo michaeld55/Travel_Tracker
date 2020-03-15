@@ -52,7 +52,7 @@ class Country
   country = SqlRunner.run( sql, values ).first
   return country = Country.new( country )
 
-end
+  end
 
   def self.delete_all()
 

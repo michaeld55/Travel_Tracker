@@ -21,7 +21,7 @@ class City
   end
 
   def save()
-    
+
     sql = "INSERT INTO cities
     (
       name, visited
@@ -44,27 +44,37 @@ class City
 
   end
 
+  def delete()
+
+    sql = "DELETE FROM cities
+    WHERE id = $1"
+    values = [@id]
+    SqlRunner.run( sql, values )
+
+  end
+
   def self.find_all()
 
-  sql = "SELECT * FROM cities"
-  cities = SqlRunner.run( sql )
-  return cities = cities.map { |city| City.new( city ) }
+    sql = "SELECT * FROM cities"
+    cities = SqlRunner.run( sql )
+    return cities = cities.map { |city| City.new( city ) }
 
   end
 
   def self.find_by_id( id )
 
-  sql = "SELECT * FROM cities WHERE id = $1"
-  values = [id]
-  city = SqlRunner.run( sql, values ).first
-  return city = City.new( city )
+    sql = "SELECT * FROM cities WHERE id = $1"
+    values = [id]
+    city = SqlRunner.run( sql, values ).first
+    return city = City.new( city )
 
-end
+  end
+
 
   def self.delete_all()
 
-  sql = "DELETE FROM cities"
-  SqlRunner.run( sql )
+    sql = "DELETE FROM cities"
+    SqlRunner.run( sql )
 
   end
 
