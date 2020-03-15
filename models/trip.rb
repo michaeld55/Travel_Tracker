@@ -56,11 +56,35 @@ class Trip
 
     end
 
+    def self.find_done()
+      sql = "SELECT * FROM Trips
+             INNER JOIN destinations
+             ON destinations.trip_id = trips.id
+             INNER JOIN cities
+             ON destinations.city_id = cities.id
+             WHERE cities.visited = TRUE"
+      trips = SqlRunner.run( sql )
+      @trips = trips.map { |trip| Trip.new( trip ) }
+
+    end
+
+    def self.find_not_done()
+      sql = "SELECT * FROM Trips
+             INNER JOIN destinations
+             ON destinations.trip_id = trips.id
+             INNER JOIN cities
+             ON destinations.city_id = cities.id
+             WHERE cities.visited = FALSE"
+      trips = SqlRunner.run( sql )
+      @trips = trips.map { |trip| Trip.new( trip ) }
+
+    end
+
     def self.find_all()
 
-    sql = "SELECT * FROM trips"
-    trips = SqlRunner.run( sql )
-    return trips = trips.map { |trip| Trip.new( trip )}
+      sql = "SELECT * FROM trips"
+      trips = SqlRunner.run( sql )
+      return trips = trips.map { |trip| Trip.new( trip )}
 
     end
 

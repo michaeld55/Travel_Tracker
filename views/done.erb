@@ -17,14 +17,12 @@
           <%= "#{destination}." %>
         <% end  %>
       <% end %>
-      <form method="post" action="/trips/<%="#{trip.id}"%>/done">
-      <input type="submit" value="Mark Trip as Complete">
       <form action= "/trips/<%= "#{trip.id}"%>/edit" method="get">
       <input type="submit" value="Edit Trip">
       </form>
       <form method="get" action="/trips/<%="#{trip.id}"%>/delete">
       <input type="submit" value="Delete Trip">
-     </form>
-  </p>
-  <br>
-  <% end  %>
+      </form>
+    </p>
+    <br>
+<% end  %>

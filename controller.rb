@@ -14,7 +14,7 @@ get( "/" ) do
 end
 
 get( "/trips" ) do
-  @trips = Trip.find_all()
+  @trips = Trip.find_not_done()
   erb(:index)
 
 end
@@ -24,6 +24,12 @@ get( "/trips/new" ) do
   @countries = Country.find_all
   @continents = Continent.find_all
   erb(:new)
+
+end
+
+get( "/trips/done" ) do
+  @trips = Trip.find_done
+  erb(:done)
 
 end
 
@@ -50,9 +56,7 @@ get '/trips/:id/delete' do
 
 end
 
-get( "" ) do
 
-end
 
 get( "" ) do
 
@@ -75,7 +79,19 @@ post( "/trips" ) do
 
 end
 
-post '/trips/:id/update' do
+post("/trips/:id/done") do
+
+  @destinations = Destination.find_by_trip_id( params[:id] )
+  @destination = @destinations.first
+  @city = City.find_by_id( @destination.city_id )
+  @city.visit
+  @city.update
+  @trips = Trip.find_done
+  erb(:done)
+
+end
+
+post( "/trips/:id/update" ) do
 
   @destinations = Destination.find_by_trip_id( params[:id] )
   @destination = @destinations.first
