@@ -3,13 +3,12 @@ require_relative( "../db/sqlrunner.rb" )
 class Trip
 
     attr_reader( :id )
-    attr_accessor( :location_id, :destination_id )
+    attr_accessor( :location_id )
 
     def initialize( options )
 
       @id = options["id"].to_i if options["id"]
       @location_id = options["location_id"].to_i
-      @destination_id = options["destination_id"].to_i
 
     end
 
@@ -17,33 +16,44 @@ class Trip
 
       sql = "INSERT INTO trips
       (
-        location_id, destination_id
+        location_id
       )
       VALUES
       (
-        $1, $2
+        $1
       )
       RETURNING id"
-      values = [@location_id, @destination_id]
+      values = [@location_id]
       @id = SqlRunner.run(sql, values)[0]['id'].to_i
 
     end
 
     def update
 
-      sql = "UPDATE trips SET location_id = $1, destination_id = $2 WHERE id = $3"
-      values = [@location_id, @destination_id, @id]
+      sql = "UPDATE trips SET location_id = $1 WHERE id = $2"
+      values = [@location_id, @id]
       SqlRunner.run( sql, values )
 
     end
 
-    def find_location_destination
+    def country
 
-      location = Location.find_by_id( location_id )
-      destination = Destination.find_by_id( destination_id )
+      location = Location.find_by_id( @location_id )
       country = location.find_country
-      city = destination.find_city
-      return "You want to go to #{country.name} and visit #{city.name}"
+      return country.id
+    end
+
+    def find_location_destinations
+
+      location = Location.find_by_id( @location_id )
+      country = location.find_country
+      cities = Destination.find_cities( @id )
+      result = [country.name]
+      cities.each do |city|
+        result.push( city.name )
+      end
+      return result
+
     end
 
     def self.find_all()

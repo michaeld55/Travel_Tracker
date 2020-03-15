@@ -6,9 +6,9 @@ require_relative( "models/city.rb" )
 require_relative( "models/country.rb" )
 require( "pry-byebug" )
 
-Trip.delete_all
-Destination.delete_all
 
+Destination.delete_all
+Trip.delete_all
 City.delete_all
 
 
@@ -27,21 +27,24 @@ city4.save
 city5.save
 city6.save
 
-destination1 = Destination.new({"city_id" => city1.id})
-destination1.save
-
-destination2 = Destination.new({"city_id" => city2.id})
-destination2.save
-
-destination3 = Destination.new({"city_id" => city1.id})
-destination3.save
-
 locations = Location.find_all
 
 location = locations.first
 
-trip1 = Trip.new({"location_id" => location.id, "destination_id" => destination1.id})
+trip1 = Trip.new({"location_id" => location.id})
 trip1.save
+
+destination1 = Destination.new({"trip_id" => trip1.id, "city_id" => city1.id})
+destination1.save
+
+destination2 = Destination.new({"trip_id" => trip1.id, "city_id" => city2.id})
+destination2.save
+
+destination3 = Destination.new({"trip_id" => trip1.id, "city_id" => city1.id})
+destination3.save
+
+
+
 
 
 binding.pry()

@@ -1,6 +1,6 @@
+DROP TABLE IF EXISTS destinations;
 DROP TABLE IF EXISTS trips;
 DROP TABLE IF EXISTS locations;
-DROP TABLE IF EXISTS destinations;
 DROP TABLE IF EXISTS countries;
 DROP TABLE IF EXISTS continents;
 DROP TABLE IF EXISTS cities;
@@ -27,13 +27,6 @@ CREATE TABLE continents(
 
 );
 
-CREATE TABLE destinations(
-
-  id SERIAL PRIMARY KEY,
-  city_id INT REFERENCES cities( id ) ON DELETE CASCADE
-
-);
-
 CREATE TABLE locations(
 
   id SERIAL PRIMARY KEY,
@@ -45,7 +38,13 @@ CREATE TABLE locations(
 CREATE TABLE trips(
 
   id SERIAL PRIMARY KEY,
-  location_id INT REFERENCES locations(id),
-  destination_id INT REFERENCES destinations(id) ON DELETE CASCADE
+  location_id INT REFERENCES locations(id)
 
+);
+
+CREATE TABLE destinations(
+
+  id SERIAL PRIMARY KEY,
+  city_id INT REFERENCES cities( id ) ON DELETE CASCADE,
+  trip_id INT REFERENCES trips( id )
 );

@@ -47,8 +47,8 @@ class Location
           WHERE locations.id = $1"
     values = [@id]
     country = SqlRunner.run( sql, values ).first
-    return country = Country.new( country )
-
+    country = Country.new( country )
+    return country
   end
 
   def self.find_id_by_country_id( country_id )
