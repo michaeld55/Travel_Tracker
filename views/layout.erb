@@ -15,14 +15,18 @@
               <a href="/">Home</a>
             </li>
             <li class="menu-list">
-              <a href="/trips">My Planned Trips</a>
-            </li>
-            <li class="menu-list">
               <a href="/trips/new">Make a New Trip</a>
             </li>
+            <%# <% if @trips_not_done.size > 0 %>
+            <li class="menu-list">
+              <a href="/trips">My Planned Trips</a>
+            </li>
+            <%# <% end %>
+            <%# <% if @trips_done.size > 0  %>
             <li>
               <a href="/trips/done">Your Completed Trips</a>
             </li>
+            <%# <% end %> 
           </ul>
         </nav>
       </aside>

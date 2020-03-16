@@ -41,6 +41,7 @@ class Trip
       location = Location.find_by_id( @location_id )
       country = location.find_country
       return country.id
+
     end
 
     def find_location_destinations
@@ -48,35 +49,37 @@ class Trip
       location = Location.find_by_id( @location_id )
       country = location.find_country
       cities = Destination.find_cities( @id )
-      result = [country.name]
+      result = [country]
       cities.each do |city|
-        result.push( city.name )
+        result.push( city )
       end
       return result
 
     end
 
-    def self.find_done()
+    def self.find_done( id )
       sql = "SELECT * FROM Trips
              INNER JOIN destinations
              ON destinations.trip_id = trips.id
              INNER JOIN cities
              ON destinations.city_id = cities.id
-             WHERE cities.visited = TRUE"
-      trips = SqlRunner.run( sql )
-      @trips = trips.map { |trip| Trip.new( trip ) }
+             WHERE cities.visited = TRUE AND trips.id = $1"
+      values = [id]
+      cities = SqlRunner.run( sql, values )
+      @cities = cities.map { |city| City.new( city ) }
 
     end
 
-    def self.find_not_done()
+    def self.find_not_done( id )
       sql = "SELECT * FROM Trips
              INNER JOIN destinations
              ON destinations.trip_id = trips.id
              INNER JOIN cities
              ON destinations.city_id = cities.id
-             WHERE cities.visited = FALSE"
-      trips = SqlRunner.run( sql )
-      @trips = trips.map { |trip| Trip.new( trip ) }
+             WHERE cities.visited = FALSE AND trips.id = $1"
+      values = [id]
+      cities = SqlRunner.run( sql, values )
+      @cities = cities.map { |city| City.new( city ) }
 
     end
 

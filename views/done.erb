@@ -1,28 +1,25 @@
 <% counter = 0  %>
 <% @trips.each do |trip|  %>
    <p>
-      <% counter += 1  %>
-      <%= "Trip #{counter}:"%>
-      <% @trip_C_D = trip.find_location_destinations %>
-      <% @country = @trip_C_D[0] %>
-      <% @trip_C_D.shift %>
-      <%  @destinations = @trip_C_D  %>
-      <%= " You have planned a trip to #{@country} and want to visit:" %>
-      <% destination_counter = @destinations.size  %>
-      <%  @destinations.each do |destination|  %>
-        <% if destination_counter != 1  %>
-          <%= "#{destination}, "%>
-          <% destination_counter -= 1  %>
-        <% else %>
-          <%= "#{destination}." %>
+      <% @cities_done = Trip.find_done( trip.id ) %>
+      <% if @cities_done.size > 0 %>
+        <% counter += 1  %>
+        <%= "Trip #{counter}:"%>
+        <% @trip_C_D = trip.find_location_destinations %>
+        <% @country = @trip_C_D[0] %>
+        <% @trip_C_D.shift %>
+        <%  @destinations = @trip_C_D  %>
+        <%= " You have Completed the trip to #{@country.name} and visited:" %>
+        <% @cities_done.each do |country|%>
+          <%= "#{country.name}" %>
         <% end  %>
-      <% end %>
-      <form action= "/trips/<%= "#{trip.id}"%>/edit" method="get">
-      <input type="submit" value="Edit Trip">
-      </form>
-      <form method="get" action="/trips/<%="#{trip.id}"%>/delete">
-      <input type="submit" value="Delete Trip">
-      </form>
-    </p>
+        <form action= "/trips/<%= "#{trip.id}"%>/edit" method="get">
+        <input type="submit" value="Edit Trip">
+        </form>
+        <form method="get" action="/trips/<%="#{trip.id}"%>/delete">
+        <input type="submit" value="Delete Trip">
+        </form>
+      </p>
     <br>
+  <% end %>
 <% end  %>
