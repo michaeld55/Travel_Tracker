@@ -1,8 +1,8 @@
 <form method="post" action= "/trips/ <%= "#{@trip.id}"%>/update">
-  <label for = "country_select"> Change the Country you plan to vis:</label>
+  <label for = "country_select"> Change the Country you plan to vist:</label>
   <select id = "country_select" name = "country_id">
     <% @countries.each do |country|  %>
-      <option value = <%= country.id  %>> <%= country.name %> </option>
+      <option value = <%="#{country.id}"%> <%="selected" if @location.country_id == country.id %>> <%= country.name %> </option>
     <% end %>
   </select>
   <br>
