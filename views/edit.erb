@@ -1,5 +1,5 @@
 <form method="post" action= "/trips/ <%= "#{@trip.id}"%>/update">
-  <label for = "country_select"> Change the Country you plan to visit:</label>
+  <label for = "country_select"> Change the Country you plan to vis:</label>
   <select id = "country_select" name = "country_id">
     <% @countries.each do |country|  %>
       <option value = <%= country.id  %>> <%= country.name %> </option>
@@ -7,12 +7,10 @@
   </select>
   <br>
   <br>
-  <% @cities.each do |city| %>
-    <label for="city_select"> Change the Cities you want to visit:</label>
-    <input type="text" name= "city_name" id="city_select">
-    <br>
-    <br>
-  <% end%>
-  <br>
-  <input type="submit" value="Update Trip">
+  <% @destinations = Destination.find_by_trip_id(@trip.id) %>
+  <label for="city_select"> Change the Number of Cities you want to visit: </label>
+  <input type="number" name= "city_number" id="city_select" value = "<%="#{@destinations.size}" %>">
+<br>
+<input type="submit" value= "Update Country">
+
 </form>

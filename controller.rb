@@ -97,8 +97,6 @@ post( "/trips/:id/add_cities" ) do
   erb(:trip_save)
 end
 
-
-
 post("/trips/:id/done") do
 
   @destinations = Destination.find_by_trip_id( params[:id] )
@@ -114,6 +112,20 @@ post("/trips/:id/done") do
 end
 
 post( "/trips/:id/update" ) do
+
+    @cities = params["city_number"].to_i
+    @location_L_C = Location.find_id_by_country_id( params["country_id"])
+    @location = @location_L_C[0]
+    @continent = @location_L_C[1]
+    @country = Country.find_by_id( params["country_id"])
+    @trip = Trip.new({"id" => params[:id],"location_id" => @location.id})
+    @trip.update
+
+  erb(:test)
+
+end
+
+post("/trips/:id/change_cities")do
   counter = params.size - 1
 
   while counter > 0
@@ -122,14 +134,12 @@ post( "/trips/:id/update" ) do
     destination = Destination.new( {"city_id" => city.id, "trip_id" => params[:id]} )
     destination.update
     counter -= 1
-    @trip = Trip.find_by_id( params[:id] )
   end
-  @location_L_C = Location.find_id_by_country_id( params["country_id"])
-  @location = @location_L_C[0]
+  @trip = Trip.find_by_id( params[:id] )
+  @location = Location.find_by_id( @trip.location_id )
+  @location_L_C = Location.find_id_by_country_id( @location.country_id )
   @continent = @location_L_C[1]
-  @country = Country.find_by_id( params["country_id"])
-  @trip = Trip.new({"id" => params[:id], "location_id" => @location.id})
-  @trip.update
-  erb(:create)
-
+  @country = Country.find_by_id( @location.country_id )
+  @destinations = Destination.find_by_trip_id( params[:id] )
+  erb(:trip_save)
 end

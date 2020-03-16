@@ -1,4 +1,4 @@
-<%= "Your have planned a trip to #{@country.name} in #{@continent.name} and plan to visit:" %>
+<%= "You have planned a trip to #{@country.name} in #{@continent.name} and plan to visit:" %>
 <% destination_counter = @destinations.size  %>
 <% @destinations.each do |destination|  %>
   <% city = City.find_by_id( destination.city_id )  %>
