@@ -21,6 +21,8 @@ get( "/trips" ) do
 end
 
 get( "/trips/new" ) do
+  @location = Location.new({"country_id" => 0, "continent_id" =>0})
+  @trip = Trip.new({"location_id" => 0})
   @countries = Country.find_all
   @continents = Continent.find_all
   erb(:new)
@@ -67,15 +69,38 @@ get( "" ) do
 end
 
 post( "/trips" ) do
-
-  @cities = params["city_number"].to_i
-  @location_L_C = Location.find_id_by_country_id( params["country_id"])
-  @location = @location_L_C[0]
-  @continent = @location_L_C[1]
+  @location_continent = Location.find_id_by_country_id( params["country_id"])
+  @location = @location_continent[0]
+  @continent = @location_continent[1]
   @country = Country.find_by_id( params["country_id"])
-  @trip = Trip.new({"location_id" => @location.id})
-  @trip.save
-  erb(:create)
+  @trip = Trip.find_by_location_id( @location.id )
+  if @trip == nil
+    @trip = Trip.new({ "location_id" => @location.id})
+    @trip.save
+  else
+    @trip = Trip.find_by_id( @trip.id )
+  end
+
+  if "Add Another City" == params["add_new_city"]
+    @city = City.new({"name" => params["city_name"], "visited" => false})
+    @city.save
+    @destination = Destination.new( {"city_id" => @city.id, "trip_id" => @trip.id} )
+    @destination.save
+    @countries = Country.find_all
+    @continents = Continent.find_all
+    @trip = Trip.find_by_id( @trip.id )
+    erb(:new)
+
+  else
+
+    @city = City.new({"name" => params["city_name"], "visited" => false})
+    @city.save
+    @destination = Destination.new( {"city_id" => @city.id, "trip_id" => @trip.id} )
+    @destination.save
+    @destinations = Destination.find_by_trip_id( @trip.id )
+    erb(:trip_save)
+
+  end
 
 end
 
@@ -91,8 +116,7 @@ post( "/trips/:id/add_cities" ) do
   end
   @trip = Trip.find_by_id( params[:id] )
   @location = Location.find_by_id( @trip.location_id )
-  @location_L_C = Location.find_id_by_country_id( @location.country_id )
-  @continent = @location_L_C[1]
+  @continent = Continent.find_by_id(@location.continent_id)
   @country = Country.find_by_id( @location.country_id )
   @destinations = Destination.find_by_trip_id( params[:id] )
   erb(:trip_save)
