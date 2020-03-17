@@ -37,10 +37,15 @@ class City
   end
 
   def update
+    if @name != ""
 
-    sql = "UPDATE cities SET name = $1, visited = $2 WHERE id = $3"
-    values = [@name, @visited, @id]
-    SqlRunner.run( sql, values )
+      sql = "UPDATE cities SET name = $1, visited = $2 WHERE id = $3"
+      values = [@name, @visited, @id]
+      SqlRunner.run( sql, values )
+    else
+      city = City.new({"id" => @id, "name" => @name, "visited" => @visited, })
+      city.delete
+    end
 
   end
 
