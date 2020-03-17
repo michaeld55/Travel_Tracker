@@ -6,10 +6,10 @@
       <% if @cities_not_done.size > 0 %>
         <% counter += 1  %>
         <%= "Trip #{counter}:"%>
-        <% @trip_C_D = trip.find_location_destinations %>
-        <% @country = @trip_C_D[0] %>
-        <% @trip_C_D.shift %>
-        <% @destinations = @trip_C_D  %>
+        <% @country_destinations = trip.find_country_cities %>
+        <% @country = @country_destinations[0] %>
+        <% @country_destinations.shift %>
+        <% @destinations = @country_destinations  %>
         <%= " You have planned a trip to #{@country.name} and want to visit:" %>
         <% destination_counter = @destinations.size  %>
         <%  @destinations.each do |destination|  %>

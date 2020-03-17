@@ -1,5 +1,5 @@
 <title>Change Country</title>
-<form method="post" action= "/trips/ <%= "#{@trip.id}"%>/update">
+<form method="post" action= "/trips/ <%= "#{@trip.id}"%>/edit">
   <label for = "country_select"> Change the Country you plan to vist:</label>
   <select id = "country_select" name = "country_id">
     <% @countries.each do |country|  %>
@@ -8,10 +8,26 @@
   </select>
   <br>
   <br>
-  <% @destinations = Destination.find_by_trip_id(@trip.id) %>
-  <label for="city_select"> Change the Number of Cities you want to visit (MAX 20): </label>
-  <input type="number" name= "city_number" id="city_select" value = "<%="#{@destinations.size}" %>">
-<br>
-<input type="submit" value= "Update Country">
+  <% destination_counter = @destinations.size  %>
+  <% @destinations.each do |destination|  %>
+  <% @cities = Destination.find_cities( @trip.id ) %>
+  <% @cities.each do |city| %>
+      <br>
+      <% break if destination_counter == 0  %>
+      <label for="city_select"> Change the City you want to visit:</label>
+      <input type="text" name= "city_name_<%=city.id%>" id="city_select" value="<%="#{city.name}"  %>">
+      <br>
+      <% destination_counter -= 1 %>
+    <% end  %>
+  <% end  %>
+      <br>
+        <label for="city_select"> Enter the Name of the  City you want to visit: (MAX 20) </label>
+        <input type="text" name= "city_name" id="city_select">
+      <br>
+      <br>
+        <input type="submit" name="add_new_city" value="Add Another City">
+      <br>
+      <br>
+<input type="submit" name= "update_trip"value= "Update Trip">
 
 </form>
