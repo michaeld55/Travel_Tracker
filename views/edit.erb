@@ -16,18 +16,20 @@
       <% break if destination_counter == 0  %>
       <label for="city_select"> Change the City you want to visit:</label>
       <input type="text" name= "city_name_<%=city.id%>" id="city_select" value="<%="#{city.name}"  %>">
+      (Delete name to remove City)
       <br>
       <% destination_counter -= 1 %>
     <% end  %>
   <% end  %>
-      <br>
-        <label for="city_select"> Enter the Name of the  City you want to visit: (MAX 20) </label>
-        <input type="text" name= "city_name" id="city_select">
-      <br>
-      <br>
-        <input type="submit" name="add_new_city" value="Add Another City">
-      <br>
-      <br>
-<input type="submit" name= "update_trip"value= "Update Trip">
+  <input type="submit" name= "update_trip"value= "Update Trip">
+  <br>
+  <br>
+    <label for="city_select"> Enter the Name of A New City you want to visit: (MAX 20) </label>
+    <input type="text" name= "city_name" id="city_select">
+  <br>
+  <br>
+    <input type="submit" name="add_new_city" value="Add New City">
+  <br>
+  <br>
 
 </form>

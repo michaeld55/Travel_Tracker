@@ -21,19 +21,19 @@ class City
   end
 
   def save()
-
-    sql = "INSERT INTO cities
-    (
-      name, visited
-    )
-    VALUES
-    (
-      $1, $2
-    )
-    RETURNING id"
-    values = [@name, @visited]
-    @id = SqlRunner.run(sql, values)[0]['id'].to_i
-
+    if @name != ""
+      sql = "INSERT INTO cities
+      (
+        name, visited
+      )
+      VALUES
+      (
+        $1, $2
+      )
+      RETURNING id"
+      values = [@name, @visited]
+      @id = SqlRunner.run(sql, values)[0]['id'].to_i
+    end
   end
 
   def update

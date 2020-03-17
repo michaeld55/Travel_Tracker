@@ -5,13 +5,13 @@
      <% @cities_not_done = Trip.find_not_done( trip.id ) %>
       <% if @cities_not_done.size > 0 %>
         <% counter += 1  %>
-        <%= "Trip #{counter}:"%>
+        <%= "Trip #{trip.id}:"%>
         <% @country_destinations = trip.find_country_cities %>
         <% @country = @country_destinations[0] %>
         <% @country_destinations.shift %>
         <% @destinations = @country_destinations  %>
         <%= " You have planned a trip to #{@country.name} and want to visit:" %>
-        <% destination_counter = @destinations.size  %>
+        <% destination_counter = @cities_not_done.size  %>
         <%  @destinations.each do |destination|  %>
         <% @cities_not_done.each do |city|%>
           <% if destination_counter > 1  %>

@@ -72,7 +72,7 @@ post("/trips/:id/edit")do
       @destinations = Destination.find_by_trip_id( @trip.id )
       erb(:create)
 
-  elsif ( "Add Another City" == params["add_new_city"])
+  elsif ( "Add New City" == params["add_new_city"])
       @city = City.new({"name" => params["city_name"], "visited" => false})
       @city.save
       @destination = Destination.new( {"city_id" => @city.id, "trip_id" => @trip.id} )
