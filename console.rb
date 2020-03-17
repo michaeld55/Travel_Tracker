@@ -23,9 +23,6 @@ city6 = City.new({"name" => "Brasilia", "visited" => false})
 city1.save
 city2.save
 city3.save
-city4.save
-city5.save
-city6.save
 
 locations = Location.find_all
 
@@ -40,11 +37,12 @@ destination1.save
 destination2 = Destination.new({"trip_id" => trip1.id, "city_id" => city2.id})
 destination2.save
 
-destination3 = Destination.new({"trip_id" => trip1.id, "city_id" => city1.id})
+destination3 = Destination.new({"trip_id" => trip1.id, "city_id" => city3.id})
 destination3.save
 
+city1 = City.new({"id" => city1.id, "name" => "London", "visited" => false})
 
-
+city1.update
 
 
 binding.pry()

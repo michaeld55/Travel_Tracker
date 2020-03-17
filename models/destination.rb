@@ -58,8 +58,8 @@ class Destination
 
     def self.find_cities( trip_id )
 
-      sql = "SELECT * FROM cities
-            INNER JOIN destinations
+      sql = "SELECT cities.* FROM cities
+             INNER JOIN destinations
             ON destinations.city_id = cities.id
             INNER JOIN Trips
             ON destinations.trip_id = trips.id
