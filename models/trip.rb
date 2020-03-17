@@ -93,26 +93,40 @@ class Trip
 
     def self.find_by_id( id )
 
-    sql = "SELECT * FROM trips WHERE id = $1"
-    values = [id]
-    trip = SqlRunner.run( sql, values ).first
-    return trip = Trip.new( trip )
+      sql = "SELECT * FROM trips WHERE id = $1"
+      values = [id]
+      trip = SqlRunner.run( sql, values ).first
+      return trip = Trip.new( trip )
 
-  end
+    end
 
-  def delete()
+    def self.find_by_location_id( location_id )
 
-    sql = "DELETE FROM trips
-    WHERE id = $1"
-    values = [@id]
-    SqlRunner.run( sql, values )
 
-  end
+      sql = "SELECT * FROM trips WHERE location_id = $1"
+      values = [location_id]
+      trip = SqlRunner.run( sql, values ).first
 
-  def self.delete_all()
+      if trip != nil
+        return trip = Trip.new( trip )
+      else
+        return nil
+      end
+    end
 
-    sql = "DELETE FROM trips"
-    SqlRunner.run( sql )
+    def delete()
 
-  end
+      sql = "DELETE FROM trips
+      WHERE id = $1"
+      values = [@id]
+      SqlRunner.run( sql, values )
+
+    end
+
+    def self.delete_all()
+
+      sql = "DELETE FROM trips"
+      SqlRunner.run( sql )
+
+    end
 end

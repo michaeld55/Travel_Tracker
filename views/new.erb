@@ -1,14 +1,18 @@
+<title>Make A New Trip</title>
 <form class = "" action = "/trips" method = "post">
   <label for = "country_select"> Pick a Country:</label>
   <select id = "country_select" name = "country_id">
     <% @countries.each do |country|  %>
-      <option value = <%= country.id  %>> <%= country.name %> </option>
+      <option value = <%="#{country.id}"%> <%="selected" if @location.country_id == country.id %>> <%= country.name %> </option>
     <% end %>
   </select>
   <br>
-    <label for="city_select"> Enter the Number of Cities you want to visit: </label>
-    <input type="number" name= "city_number" id="city_select">
+    <label for="city_select"> Enter the Name of the City you want to visit: (MAX 20) </label>
+    <input type="text" name= "city_name" id="city_select">
   <br>
-  <input type="submit" value= "Save Country">
-
+  <br>
+    <input type="submit" name="add_new_city" value="Add Another City">
+  <br>
+  <br>
+    <input type="submit" name= "save"value= "Save Trip">
 </form>

@@ -1,3 +1,4 @@
+<title>Change Country</title>
 <form method="post" action= "/trips/ <%= "#{@trip.id}"%>/update">
   <label for = "country_select"> Change the Country you plan to vist:</label>
   <select id = "country_select" name = "country_id">
@@ -8,7 +9,7 @@
   <br>
   <br>
   <% @destinations = Destination.find_by_trip_id(@trip.id) %>
-  <label for="city_select"> Change the Number of Cities you want to visit: </label>
+  <label for="city_select"> Change the Number of Cities you want to visit (MAX 20): </label>
   <input type="number" name= "city_number" id="city_select" value = "<%="#{@destinations.size}" %>">
 <br>
 <input type="submit" value= "Update Country">
