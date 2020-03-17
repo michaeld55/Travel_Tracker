@@ -10,7 +10,6 @@
   <br>
   <% destination_counter = @destinations.size  %>
   <% @destinations.each do |destination|  %>
-  <% @cities = Destination.find_cities( @trip.id ) %>
   <% @cities.each do |city| %>
       <br>
       <% break if destination_counter == 0  %>
@@ -21,9 +20,6 @@
       <% destination_counter -= 1 %>
     <% end  %>
   <% end  %>
-  <input type="submit" name= "update_trip"value= "Update Trip">
-  <br>
-  <br>
     <label for="city_select"> Enter the Name of A New City you want to visit: (MAX 20) </label>
     <input type="text" name= "city_name" id="city_select">
   <br>
@@ -31,5 +27,6 @@
     <input type="submit" name="add_new_city" value="Add New City">
   <br>
   <br>
+    <input type="submit" name= "update_trip"value= "Save Trip">
 
 </form>

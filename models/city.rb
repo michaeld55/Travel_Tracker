@@ -33,6 +33,8 @@ class City
       RETURNING id"
       values = [@name, @visited]
       @id = SqlRunner.run(sql, values)[0]['id'].to_i
+    else
+      return nil
     end
   end
 

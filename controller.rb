@@ -39,11 +39,12 @@ get '/trips/:id/edit' do
 
   @trip = Trip.find_by_id( params[:id] )
   @location = Location.find_by_id( @trip.location_id )
-  @destinations = Destination.find_by_trip_id( @trip.id )
+  @destinations = Destination.find_by_trip_id( params[:id] )
   @countries = Country.find_all
   @continents = Continent.find_all
   @cities = Destination.find_cities( params[:id] )
  erb(:edit)
+
 end
 
 post("/trips/:id/edit")do
@@ -57,7 +58,7 @@ post("/trips/:id/edit")do
   @trip.update
   @destinations = Destination.find_by_trip_id( @trip.id )
 
-  if (( params["update_trip"] == "Update Trip") && (@destinations.size <= 19))
+  if (( params["update_trip"] == "Save Trip") && (@destinations.size <= 19))
     @destinations.each do |destination|
       if destination.city_id != nil
         @city = City.find_by_id( destination.city_id )
@@ -69,6 +70,12 @@ post("/trips/:id/edit")do
         @destination.update
       end
     end
+      @city = City.new({"name" => params["city_name"], "visited" => false})
+      @city.save
+      if @city.id != nil
+        @destination = Destination.new( {"city_id" => @city.id, "trip_id" => @trip.id} )
+        @destination.save
+      end
       @destinations = Destination.find_by_trip_id( @trip.id )
       erb(:create)
 
@@ -78,6 +85,7 @@ post("/trips/:id/edit")do
       @destination = Destination.new( {"city_id" => @city.id, "trip_id" => @trip.id} )
       @destination.save
       @destinations = Destination.find_by_trip_id( @trip.id )
+      @cities = Destination.find_cities( @trip.id )
       erb(:edit)
   end
 
@@ -107,13 +115,8 @@ post( "/trips" ) do
   @location = @location_continent[0]
   @continent = @location_continent[1]
   @country = Country.find_by_id( params["country_id"])
-  @trip = Trip.find_by_location_id( @location.id )
-  if @trip == nil
-    @trip = Trip.new({ "location_id" => @location.id})
-    @trip.save
-  else
-    @trip = Trip.find_by_id( @trip.id )
-  end
+  @trip = Trip.new({ "location_id" => @location.id})
+  @trip.save
   @destinations = Destination.find_by_trip_id( @trip.id )
   if ("Add Another City" == params["add_new_city"]) && ( @destinations.size <= 19)
     @city = City.new({"name" => params["city_name"], "visited" => false})
@@ -123,7 +126,9 @@ post( "/trips" ) do
     @countries = Country.find_all
     @continents = Continent.find_all
     @trip = Trip.find_by_id( @trip.id )
-    erb(:new)
+    @destinations = Destination.find_by_trip_id( @trip.id )
+    @cities = Destination.find_cities( @trip.id )
+    erb(:edit)
 
   else
 
