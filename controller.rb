@@ -122,6 +122,7 @@ post( "/trips/:id/update" ) do
     @trip = Trip.new({"id" => params[:id],"location_id" => @location.id})
     @trip.update
 
+
   erb(:edit_cities)
 
 end
@@ -129,12 +130,11 @@ end
 post("/trips/:id/change_cities")do
   counter = params.size - 1
   @cities = Destination.find_cities( params[:id])
+  @test = @cities
   @cities.each do |city|
     break if counter == 0
-    city = City.new( {"id" => city.id, "name" => params["city_name_#{counter}"], "visited" => city.visited} )
-    city.update
-    destination = Destination.new( {"city_id" => city.id, "trip_id" => params[:id]} )
-    destination.update
+    city1 = City.new( {"id" => (city.id), "name" => params["city_name_#{counter}"], "visited" => city.visited} )
+    city1.update
     counter -= 1
   end
   while counter > 1
@@ -142,6 +142,7 @@ post("/trips/:id/change_cities")do
     city.save
     destination = Destination.new( {"city_id" => city.id, "trip_id" => params[:id]} )
     destination.save
+
     counter -= 1
   end
 

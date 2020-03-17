@@ -1,0 +1,8 @@
+<% @test.each do |city| %>
+<%= "#{city.id} " %>
+<% end %>
+
+<% @test = Destination.find_cities( @trip.id ) %>
+  <% @test.each do |city| %>
+  <%= "#{city.id} " %>
+<% end %>
