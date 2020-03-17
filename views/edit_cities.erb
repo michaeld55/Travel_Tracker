@@ -1,19 +1,25 @@
-
 <form class="" action="/trips/<%="#{@trip.id}"%>/change_cities" method="post">
-  <h1><%= "You are have changed your trip to #{@continent.name} visiting #{@country.name} and now want to visit #{@cities} Cities please enter their names below" %></h1>
-  <% counter = @cities %>
+  <h1><%= "You are have changed your trip to #{@continent.name} visiting #{@country.name} and now want to visit #{@num_of_cities}" %>
+    <% if  @num_of_cities > 1 %>
+      <%="Cities please enter their names below" %></h1>
+      <% else  %>
+      <%= "City please enter it's name below" %>
+    <% end  %>
+  <% counter = @num_of_cities %>
   <% @cities = Destination.find_cities( @trip.id ) %>
   <% @cities.each do |city| %>
+      <br>
       <% break if counter == 0  %>
       <label for="city_select"> Change the City you want to visit:</label>
       <input type="text" name= "city_name_<%=counter%>" id="city_select" value="<%="#{city.name}"  %>">
       <br>
-      <br>
       <% counter -= 1 %>
       <% end  %>
       <% while  counter > 0 %>
+      <br>
         <label for="city_select"> Add the new City you want to visit:</label>
         <input type="text" name= "city_name_<%=counter%>" id="city_select">
+      <br>
         <% counter -= 1 %>
       <% end  %>
       <br>
