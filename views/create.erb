@@ -1,13 +1,12 @@
-
-<form class="" action="/trips/<%="#{@trip.id}"%>/add_cities" method="post">
-  <h1><%= "You have planned a trip to #{@continent.name} visiting #{@country.name} and want to visit #{@cities} Cities please enter their names below" %></h1>
-  <% counter = @cities %>
-    <% while counter > 0%>
-      <label for="city_select"> Enter the City Name you want to visit:</label>
-      <input type="text" name= "city_name_<%=counter%>" id="city_select">
-      <br>
-      <br>
-        <% counter -= 1 %>
-      <% end  %>
-  <input type="submit" value= "Save Trip">
-</form>
+<%= "You have planned a trip to #{@country.name} in #{@continent.name} and plan to visit:" %>
+<% destination_counter = @destinations.size  %>
+<% @destinations.each do |destination|  %>
+  <% city = City.find_by_id( destination.city_id )  %>
+  <% if destination_counter > 1  %>
+      <%= "#{city.name}, " %>
+      <% destination_counter -= 1  %>
+    <% elsif destination_counter == 1 %>
+      <%= "#{city.name}." %>
+      <% destination_counter -= 1  %>
+    <% end  %>
+<% end  %>
