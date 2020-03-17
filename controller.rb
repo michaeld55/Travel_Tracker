@@ -63,6 +63,7 @@ get '/trips/:id/delete' do
 end
 
 post( "/trips" ) do
+
   @location_continent = Location.find_id_by_country_id( params["country_id"])
   @location = @location_continent[0]
   @continent = @location_continent[1]
@@ -74,8 +75,8 @@ post( "/trips" ) do
   else
     @trip = Trip.find_by_id( @trip.id )
   end
-
-  if "Add Another City" == params["add_new_city"]
+  @destinations = Destination.find_by_trip_id( @trip.id )
+  if ("Add Another City" == params["add_new_city"]) && ( @destinations.size <= 19)
     @city = City.new({"name" => params["city_name"], "visited" => false})
     @city.save
     @destination = Destination.new( {"city_id" => @city.id, "trip_id" => @trip.id} )
