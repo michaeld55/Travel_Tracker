@@ -36,14 +36,6 @@ class Trip
 
     end
 
-    def country
-
-      location = Location.find_by_id( @location_id )
-      country = location.find_country
-      return country.id
-
-    end
-
     def find_country_cities
 
       location = Location.find_by_id( @location_id )
