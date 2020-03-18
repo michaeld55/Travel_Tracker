@@ -70,28 +70,20 @@ class Destination
 
     end
 
-    def self.find_all()
+    def self.find_by_id( id )
 
-      sql = "SELECT * FROM destinations"
-      destinations = SqlRunner.run( sql )
-      return destinations = destinations.map { |destination| Destination.new( destination )}
+      sql = "SELECT * FROM destinations WHERE id = $1"
+      values = [id]
+      destination = SqlRunner.run( sql, values ).first
+      return destination = Destination.new( destination )
 
     end
 
-  def self.find_by_id( id )
+    def self.delete_all()
 
-    sql = "SELECT * FROM destinations WHERE id = $1"
-    values = [id]
-    destination = SqlRunner.run( sql, values ).first
-    return destination = Destination.new( destination )
+      sql = "DELETE FROM destinations"
+      SqlRunner.run( sql )
 
-  end
-
-  def self.delete_all()
-
-    sql = "DELETE FROM destinations"
-    SqlRunner.run( sql )
-
-  end
+    end
 
 end

@@ -3,8 +3,6 @@ require_relative("../db/sqlrunner.rb")
 class City
 
   attr_reader( :id )
-  # attr_writer
-
   attr_accessor( :name, :visited )
 
   def initialize( options )
@@ -76,7 +74,6 @@ class City
     return city = City.new( city )
 
   end
-
 
   def self.delete_all()
 

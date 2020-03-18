@@ -7,7 +7,6 @@ class Continent
 
   def initialize( options )
 
-    # binding.pry()
     @id = options["id"].to_i if options["id"]
     @name = options["name"]
 
