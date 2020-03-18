@@ -1,5 +1,6 @@
 <title>Change Country</title>
 <form method="post" action= "/trips/ <%= "#{@trip.id}"%>/edit">
+  <br>
   <label for = "country_select"> Change the Country you plan to vist:</label>
   <select id = "country_select" name = "country_id">
     <% @countries.each do |country|  %>
@@ -9,7 +10,6 @@
   <br>
   <br>
   <% destination_counter = @cities.size  %>
-  <% @destinations.each do |destination|  %>
   <% @cities.each do |city| %>
       <br>
       <% break if destination_counter == 0  %>
@@ -18,8 +18,8 @@
       (Delete name to remove City)
       <br>
       <% destination_counter -= 1 %>
-    <% end  %>
   <% end  %>
+  <br>
     <label for="city_select"> Enter the Name of A New City you want to visit: </label>
     <input type="text" name= "city_name" id="city_select">
   <br>

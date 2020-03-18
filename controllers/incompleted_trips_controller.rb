@@ -9,12 +9,19 @@ require_relative( "../models/city.rb" )
 also_reload("./models/*")
 
 get( "/trips" ) do
-  @trips = Trip.find_all()
+  @trips = Trip.find_all
+  if @trips.size == 0
+    Trip.reset_number
+  end
   erb(:"incompleted_trips/index")
 
 end
 
 get( "/trips/new" ) do
+  @trips = Trip.find_all
+  if @trips.size == 0
+    Trip.reset_number
+  end
   @location = Location.new({"country_id" => 0, "continent_id" =>0})
   @trip = Trip.new({"location_id" => 0})
   @countries = Country.find_all
@@ -47,7 +54,8 @@ get '/trips/:id/delete' do
     destination.delete
     city.delete
   end
-    @trip.delete
+
+  @trip.delete
 
   erb(:"completed_trips/destroy")
 
@@ -102,13 +110,21 @@ post("/trips/:id/edit")do
   @trip.update
   @destinations = Destination.find_by_trip_id( @trip.id )
 
-  if (( params["update_trip"] == "Save Trip") && (@destinations.size <= 19))
+  if @destinations.size > 20
+    @destinations.reverse
+    until @destinations.size <= 19
+      @destinations.each do |destination|
+        destination.delete
+      end
+    end
+
+  elsif( params["update_trip"] == "Save Trip")
 
     @destinations.each do |destination|
 
       if destination.city_id != nil
 
-        @city = City.find_by_id( destination.city_id )
+          @city = City.find_by_id( destination.city_id )
 
       end
 
@@ -134,7 +150,7 @@ post("/trips/:id/edit")do
       @destinations = Destination.find_by_trip_id( @trip.id )
       erb(:"incompleted_trips/create")
 
-  elsif ( "Add New City" == params["add_new_city"])
+  elsif ( "Add New City" == params["add_new_city"] )
 
       @city = City.new({"name" => params["city_name"], "visited" => false})
       @city.save
@@ -150,5 +166,4 @@ post("/trips/:id/edit")do
       @cities = Destination.find_cities( @trip.id )
       erb(:"incompleted_trips/edit")
   end
-
 end

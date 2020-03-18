@@ -10,6 +10,9 @@ also_reload("./models/*")
 
 get( "/completed_trips/" ) do
   @trips = Trip.find_all()
+  if @trips.size == 0
+    Trip.reset_number
+  end
   erb(:"completed_trips/index")
 
 end
