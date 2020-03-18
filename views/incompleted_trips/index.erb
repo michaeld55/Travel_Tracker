@@ -1,7 +1,7 @@
 <title>My Planned Trips</title>
 <% counter = 0  %>
 <% @trips.each do |trip|  %>
-   <p>
+<p>
      <% @cities_not_done = Trip.find_not_done( trip.id ) %>
       <% if @cities_not_done.size > 0 %>
         <% counter += 1  %>
@@ -19,6 +19,7 @@
               <% destination_counter -= 1  %>
             <% end  %>
         <% end  %>
+          </p>
         <form method="post" action="/completed_trips/<%="#{trip.id}"%>/update">
           <input type="submit" value="Mark Trip as Complete">
         </form>
@@ -28,7 +29,7 @@
         <form method="get" action="/trips/<%="#{trip.id}"%>/delete">
           <input type="submit" value="Delete Trip">
         </form>
-    </p>
+
     <br>
   <% end %>
 <% end  %>

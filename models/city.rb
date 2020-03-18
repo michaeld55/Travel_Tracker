@@ -58,14 +58,6 @@ class City
 
   end
 
-  def self.find_all()
-
-    sql = "SELECT * FROM cities"
-    cities = SqlRunner.run( sql )
-    return cities = cities.map { |city| City.new( city ) }
-
-  end
-
   def self.find_by_id( id )
 
     sql = "SELECT * FROM cities WHERE id = $1"
