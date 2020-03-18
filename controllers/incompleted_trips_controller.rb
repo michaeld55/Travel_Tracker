@@ -55,9 +55,8 @@ end
 
 post( "/trips" ) do
 
-  @location_continent = Location.find_id_by_country_id( params["country_id"])
-  @location = @location_continent[0]
-  @continent = @location_continent[1]
+  @location = Location.find_by_country_id( params["country_id"])
+  @continent = Continent.find_by_id( @location.continent_id)
   @country = Country.find_by_id( params["country_id"])
   @trip = Trip.new({ "location_id" => @location.id})
   @trip.save
@@ -90,9 +89,8 @@ end
 post("/trips/:id/edit")do
   @countries = Country.find_all
   @continents = Continent.find_all
-  @location_continent = Location.find_id_by_country_id( params["country_id"])
-  @location = @location_continent[0]
-  @continent = @location_continent[1]
+  @location = Location.find_by_country_id( params["country_id"])
+  @continent = Continent.find_by_id( @location.continent_id)
   @country = Country.find_by_id( params["country_id"])
   @trip = Trip.new({"id" => params[:id], "location_id" => @location.id})
   @trip.update

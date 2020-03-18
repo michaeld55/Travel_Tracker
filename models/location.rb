@@ -51,7 +51,7 @@ class Location
     return country
   end
 
-  def self.find_id_by_country_id( country_id )
+  def self.find_by_country_id( country_id )
 
     sql = "SELECT locations.id, locations.continent_id FROM locations
            LEFT JOIN countries
@@ -62,9 +62,8 @@ class Location
 
     values = [ country_id ]
     location = SqlRunner.run( sql, values ).first
-    continent = ( Continent.find_by_id( location["continent_id"] ))
     location = ( Location.find_by_id( location["id"] ))
-    [location, continent]
+    location
   end
 
   def self.find_all()
