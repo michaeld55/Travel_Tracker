@@ -88,20 +88,6 @@ class Trip
 
     end
 
-    def self.find_by_location_id( location_id )
-
-
-      sql = "SELECT * FROM trips WHERE location_id = $1"
-      values = [location_id]
-      trip = SqlRunner.run( sql, values ).first
-
-      if trip != nil
-        return trip = Trip.new( trip )
-      else
-        return nil
-      end
-    end
-
     def self.delete_all()
 
       sql = "DELETE FROM trips"
