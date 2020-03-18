@@ -36,24 +36,12 @@ class Trip
 
     end
 
-    def country
+    def delete()
 
-      location = Location.find_by_id( @location_id )
-      country = location.find_country
-      return country.id
-
-    end
-
-    def find_country_cities
-
-      location = Location.find_by_id( @location_id )
-      country = location.find_country
-      cities = Destination.find_cities( @id )
-      result = [country]
-      cities.each do |city|
-        result.push( city )
-      end
-      return result
+      sql = "DELETE FROM trips
+             WHERE id = $1"
+      values = [@id]
+      SqlRunner.run( sql, values )
 
     end
 
@@ -100,33 +88,31 @@ class Trip
 
     end
 
-    def self.find_by_location_id( location_id )
-
-
-      sql = "SELECT * FROM trips WHERE location_id = $1"
-      values = [location_id]
-      trip = SqlRunner.run( sql, values ).first
-
-      if trip != nil
-        return trip = Trip.new( trip )
-      else
-        return nil
-      end
-    end
-
-    def delete()
-
-      sql = "DELETE FROM trips
-      WHERE id = $1"
-      values = [@id]
-      SqlRunner.run( sql, values )
-
-    end
-
     def self.delete_all()
 
       sql = "DELETE FROM trips"
       SqlRunner.run( sql )
 
+    end
+
+    def self.reset_number()
+
+      sql = "DROP TABLE IF EXISTS destinations, trips"
+      SqlRunner.run( sql )
+      sql = "CREATE TABLE trips
+             (
+
+             id SERIAL PRIMARY KEY,
+             location_id INT REFERENCES locations(id)
+
+             )
+             "
+      SqlRunner.run( sql )
+      sql = "CREATE TABLE destinations(
+               id SERIAL PRIMARY KEY,
+               city_id INT REFERENCES cities( id ) ON DELETE CASCADE,
+               trip_id INT REFERENCES trips( id )
+             )"
+      SqlRunner.run( sql )
     end
 end

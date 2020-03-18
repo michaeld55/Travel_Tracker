@@ -55,18 +55,20 @@ end
 
 post( "/trips" ) do
 
-  @location_continent = Location.find_id_by_country_id( params["country_id"])
-  @location = @location_continent[0]
-  @continent = @location_continent[1]
+  @location = Location.find_by_country_id( params["country_id"])
+  @continent = Continent.find_by_id( @location.continent_id)
   @country = Country.find_by_id( params["country_id"])
   @trip = Trip.new({ "location_id" => @location.id})
   @trip.save
   @destinations = Destination.find_by_trip_id( @trip.id )
+
   if ("Add Another City" == params["add_new_city"]) && ( @destinations.size <= 19)
     @city = City.new({"name" => params["city_name"], "visited" => false})
     @city.save
-    @destination = Destination.new( {"city_id" => @city.id, "trip_id" => @trip.id} )
-    @destination.save
+    if @city.id != nil
+      @destination = Destination.new( {"city_id" => @city.id, "trip_id" => @trip.id} )
+      @destination.save
+    end
     @countries = Country.find_all
     @continents = Continent.find_all
     @trip = Trip.find_by_id( @trip.id )
@@ -78,8 +80,10 @@ post( "/trips" ) do
 
     @city = City.new({"name" => params["city_name"], "visited" => false})
     @city.save
-    @destination = Destination.new( {"city_id" => @city.id, "trip_id" => @trip.id} )
-    @destination.save
+    if @city.id != nil
+      @destination = Destination.new( {"city_id" => @city.id, "trip_id" => @trip.id} )
+      @destination.save
+    end
     @destinations = Destination.find_by_trip_id( @trip.id )
     erb(:"incompleted_trips/create")
 
@@ -88,42 +92,60 @@ post( "/trips" ) do
 end
 
 post("/trips/:id/edit")do
+
   @countries = Country.find_all
   @continents = Continent.find_all
-  @location_continent = Location.find_id_by_country_id( params["country_id"])
-  @location = @location_continent[0]
-  @continent = @location_continent[1]
+  @location = Location.find_by_country_id( params["country_id"])
+  @continent = Continent.find_by_id( @location.continent_id)
   @country = Country.find_by_id( params["country_id"])
   @trip = Trip.new({"id" => params[:id], "location_id" => @location.id})
   @trip.update
   @destinations = Destination.find_by_trip_id( @trip.id )
 
   if (( params["update_trip"] == "Save Trip") && (@destinations.size <= 19))
+
     @destinations.each do |destination|
+
       if destination.city_id != nil
+
         @city = City.find_by_id( destination.city_id )
+
       end
+
       if @city != nil
+
         @city = City.new({"id" => @city.id, "name" => params["city_name_#{@city.id}"], "visited" => @city.visited})
         @city.update
         @destination = Destination.new( {"id" => destination.id, "city_id" => @city.id, "trip_id" => @trip.id} )
         @destination.update
+
       end
     end
+
       @city = City.new({"name" => params["city_name"], "visited" => false})
       @city.save
+
       if @city.id != nil
+
         @destination = Destination.new( {"city_id" => @city.id, "trip_id" => @trip.id} )
         @destination.save
       end
+
       @destinations = Destination.find_by_trip_id( @trip.id )
       erb(:"incompleted_trips/create")
 
   elsif ( "Add New City" == params["add_new_city"])
+
       @city = City.new({"name" => params["city_name"], "visited" => false})
       @city.save
-      @destination = Destination.new( {"city_id" => @city.id, "trip_id" => @trip.id} )
-      @destination.save
+
+      if @city.id != nil
+
+        @destination = Destination.new( {"city_id" => @city.id, "trip_id" => @trip.id} )
+        @destination.save
+
+      end
+
       @destinations = Destination.find_by_trip_id( @trip.id )
       @cities = Destination.find_cities( @trip.id )
       erb(:"incompleted_trips/edit")
