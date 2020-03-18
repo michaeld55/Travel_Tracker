@@ -39,7 +39,7 @@ class Trip
     def delete()
 
       sql = "DELETE FROM trips
-      WHERE id = $1"
+             WHERE id = $1"
       values = [@id]
       SqlRunner.run( sql, values )
 
@@ -93,5 +93,26 @@ class Trip
       sql = "DELETE FROM trips"
       SqlRunner.run( sql )
 
+    end
+
+    def self.reset_number()
+
+      sql = "DROP TABLE IF EXISTS destinations, trips"
+      SqlRunner.run( sql )
+      sql = "CREATE TABLE trips
+             (
+
+             id SERIAL PRIMARY KEY,
+             location_id INT REFERENCES locations(id)
+
+             )
+             "
+      SqlRunner.run( sql )
+      sql = "CREATE TABLE destinations(
+               id SERIAL PRIMARY KEY,
+               city_id INT REFERENCES cities( id ) ON DELETE CASCADE,
+               trip_id INT REFERENCES trips( id )
+             )"
+      SqlRunner.run( sql )
     end
 end
