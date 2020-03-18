@@ -110,21 +110,13 @@ post("/trips/:id/edit")do
   @trip.update
   @destinations = Destination.find_by_trip_id( @trip.id )
 
-  if @destinations.size > 20
-    @destinations.reverse
-    until @destinations.size <= 19
-      @destinations.each do |destination|
-        destination.delete
-      end
-    end
-
-  elsif( params["update_trip"] == "Save Trip")
+  if ( params["update_trip"] == "Save Trip")
 
     @destinations.each do |destination|
 
       if destination.city_id != nil
 
-          @city = City.find_by_id( destination.city_id )
+        @city = City.find_by_id( destination.city_id )
 
       end
 
@@ -150,7 +142,7 @@ post("/trips/:id/edit")do
       @destinations = Destination.find_by_trip_id( @trip.id )
       erb(:"incompleted_trips/create")
 
-  elsif ( "Add New City" == params["add_new_city"] )
+  elsif ( "Add New City" == params["add_new_city"])
 
       @city = City.new({"name" => params["city_name"], "visited" => false})
       @city.save
@@ -166,4 +158,5 @@ post("/trips/:id/edit")do
       @cities = Destination.find_cities( @trip.id )
       erb(:"incompleted_trips/edit")
   end
+
 end
