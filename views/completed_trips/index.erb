@@ -14,14 +14,14 @@
         <% destination_counter = @cities_done.size  %>
         <% @cities_done.each do |city|%>
         <% if destination_counter > 1  %>
-            <%= "#{city.name},"%> 
+            <%= "#{city.name},"%>
             <% destination_counter -= 1  %>
           <% elsif destination_counter == 1 %>
             <%= "#{city.name}." %>
             <% destination_counter -= 1  %>
           <% end  %>
         <% end  %>
-        <form method="get" action="/trips/<%="#{trip.id}"%>/delete">
+        <form method="get" action="/completed_trips/<%="#{trip.id}"%>/delete">
         <input type="submit" value="Delete Trip">
         </form>
       </p>

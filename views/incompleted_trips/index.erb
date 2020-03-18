@@ -23,7 +23,7 @@
             <% end  %>
           <% end  %>
         <% end  %>
-        <form method="post" action="/trips/<%="#{trip.id}"%>/done">
+        <form method="post" action="/completed_trips/<%="#{trip.id}"%>/update">
           <input type="submit" value="Mark Trip as Complete">
         </form>
         <form action= "/trips/<%= "#{trip.id}"%>/edit" method="get">

@@ -5,7 +5,8 @@
 <% if destination.city_id != nil %>
     <% city = City.find_by_id( destination.city_id )  %>
     <% if destination_counter > 1  %>
-        <%= "#{city.name}, " %>
+    
+        <%= "#{city.name}," %>
         <% destination_counter -= 1  %>
       <% elsif destination_counter == 1 %>
         <%= "#{city.name}." %>
