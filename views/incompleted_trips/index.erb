@@ -6,13 +6,10 @@
       <% if @cities_not_done.size > 0 %>
         <% counter += 1  %>
         <%= "Trip #{trip.id}:"%>
-        <% @country_destinations = trip.find_country_cities %>
-        <% @country = @country_destinations[0] %>
-        <% @country_destinations.shift %>
-        <% @destinations = @country_destinations  %>
+        <% @location = Location.find_by_id( trip.location_id ) %>
+        <% @country = Country.find_by_id( @location.country_id )%>
         <%= " You have planned a trip to #{@country.name} and want to visit:" %>
         <% destination_counter = @cities_not_done.size  %>
-        <%  @destinations.each do |destination|  %>
         <% @cities_not_done.each do |city|%>
           <% if destination_counter > 1  %>
               <%= "#{city.name}, " %>
@@ -21,7 +18,6 @@
               <%= "#{city.name}." %>
               <% destination_counter -= 1  %>
             <% end  %>
-          <% end  %>
         <% end  %>
         <form method="post" action="/completed_trips/<%="#{trip.id}"%>/update">
           <input type="submit" value="Mark Trip as Complete">

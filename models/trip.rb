@@ -36,16 +36,12 @@ class Trip
 
     end
 
-    def find_country_cities
+    def delete()
 
-      location = Location.find_by_id( @location_id )
-      country = location.find_country
-      cities = Destination.find_cities( @id )
-      result = [country]
-      cities.each do |city|
-        result.push( city )
-      end
-      return result
+      sql = "DELETE FROM trips
+      WHERE id = $1"
+      values = [@id]
+      SqlRunner.run( sql, values )
 
     end
 
@@ -104,15 +100,6 @@ class Trip
       else
         return nil
       end
-    end
-
-    def delete()
-
-      sql = "DELETE FROM trips
-      WHERE id = $1"
-      values = [@id]
-      SqlRunner.run( sql, values )
-
     end
 
     def self.delete_all()
